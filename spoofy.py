@@ -4,7 +4,7 @@ from spotipy.oauth2 import SpotifyOAuth
 from flask import Flask,request,url_for,session,redirect
 app= Flask(__name__)
 app.config['SESSION_COOKIE_NAME']= 'spotify cookie'
-app.secret_key='10)293@han2%^s*hka02zkls'
+app.secret_key='enter yours within these quotes'
 TOKEN_INFO='token_info'
 @app.route('/')
 def login():
@@ -74,6 +74,6 @@ def get_token():
     return token_info
 
 def create_spotify_oauth():
-    return SpotifyOAuth(client_id= "d9a3802b87f449ab9ae3626b18d65a39", client_secret='19d2696adc2d4c88ab5fb3b0df464bd8', redirect_uri= url_for('redirect_page', _external= True), scope='user-library-read playlist-modify-public playlist-modify-private')
+    return SpotifyOAuth(client_id= "enter yours within these quotes", client_secret='enter yours within these quotes', redirect_uri= url_for('redirect_page', _external= True), scope='user-library-read playlist-modify-public playlist-modify-private')
 
 app.run(debug=True)
