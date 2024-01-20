@@ -16,8 +16,8 @@ This project automates the process of saving tracks from the Spotify Discover We
    cd spotify-automation
    
 2. **Install Dependencies:**
-pip install -r requirements.txt
-Spotify Developer Account:
+   ```bash
+   pip install -r requirements.txt
 
 3. **Create a Spotify Developer account at Spotify Developer Dashboard.**
 Create a new application to obtain client_id and client_secret.
@@ -25,6 +25,7 @@ Configure the App:
 
 4. **Replace placeholders in the script (app.py) with your Spotify application's client_id and client_secret.**
 Run the App:
+```bash
 python app.py
 Access the App:
 Open a web browser and navigate to http://127.0.0.1:5000/ to initiate the Spotify authentication process.
