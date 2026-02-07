@@ -2,6 +2,25 @@
 
 This project automates the process of saving tracks from the Spotify Discover Weekly playlist to a custom "Saved Weekly" playlist. It is built using Flask, Spotipy (Spotify API library), and requires user authentication.
 
+---
+
+## Backend (FastAPI) – Configuration
+
+The backend uses **Pydantic Settings** and requires these environment variables. The app **fails fast on startup** if any required variable is missing.
+
+| Variable | Required | Description |
+|----------|----------|-------------|
+| `SPOTIFY_CLIENT_ID` | Yes | Spotify app client ID |
+| `SPOTIFY_CLIENT_SECRET` | Yes | Spotify app client secret |
+| `APP_SECRET` | Yes | Min 16 chars; used for session/CSRF signing |
+| `DATABASE_URL` | Yes | PostgreSQL connection URL |
+| `BASE_URL` | Yes | Public base URL of this app (e.g. `http://localhost:8000`) for OAuth redirects |
+| `ALLOWED_ORIGINS` | No | Comma-separated CORS origins (default: `http://localhost:3000`) |
+| `LOG_LEVEL` | No | Log level (default: `INFO`) |
+| `JSON_LOGS` | No | Set to `true` for JSON log lines |
+
+**Setup:** Copy `backend/.env.example` to `backend/.env` and fill in values. Never commit `.env`. Logging redacts tokens and secrets; do not log credentials in application code.
+
 ## Features
 
 - **Automatic Playlist Update:** Tracks from the Discover Weekly playlist are automatically added to a designated "Saved Weekly" playlist.

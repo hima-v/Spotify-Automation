@@ -51,6 +51,10 @@ jobs:
     env:
       DATABASE_URL: postgresql://postgres:postgres@localhost:5432/spotify_playlist_test
       REDIS_URL: redis://localhost:6379/0
+      SPOTIFY_CLIENT_ID: test_client_id
+      SPOTIFY_CLIENT_SECRET: test_client_secret
+      APP_SECRET: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+      BASE_URL: http://localhost:8000
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5

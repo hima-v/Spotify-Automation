@@ -16,4 +16,4 @@ def test_settings_load():
     s = get_settings()
     assert s.app_name
     assert s.rate_limit_requests > 0
-    assert isinstance(s.cors_origins, list)
+    assert isinstance(s.allowed_origins, list)
