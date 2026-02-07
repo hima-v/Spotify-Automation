@@ -9,6 +9,7 @@ from app.core.config import get_settings
 from app.core.logging import configure_logging
 from app.auth.routes import router as auth_router
 from app.playlists.routes import router as playlists_router
+from app.playlists.routes import jobs_router
 
 
 @asynccontextmanager
@@ -43,6 +44,7 @@ def create_app() -> FastAPI:
 
     app.include_router(auth_router)
     app.include_router(playlists_router)
+    app.include_router(jobs_router)
     return app
 
 
