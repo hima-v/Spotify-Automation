@@ -8,6 +8,7 @@ psycopg2-binary>=2.9,<2.10
 alembic>=1.13,<1.14
 celery[redis]>=5.3,<6
 redis>=5.0,<6
+httpx>=0.26,<0.28
 
 # Dev/test
 pytest>=7.4,<8

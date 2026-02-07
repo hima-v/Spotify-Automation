@@ -33,6 +33,7 @@ class Settings(BaseSettings):
     rate_limit_window_seconds: int = Field(default=60, alias="RATE_LIMIT_WINDOW_SECONDS")
     log_level: str = Field(default="INFO", alias="LOG_LEVEL")
     json_logs: bool = Field(default=False, alias="JSON_LOGS")
+    auth_success_redirect: str | None = Field(default=None, alias="AUTH_SUCCESS_REDIRECT")
 
     @field_validator("allowed_origins", mode="before")
     @classmethod
