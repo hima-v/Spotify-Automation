@@ -9,3 +9,71 @@ body {
   color: #e5e5e5;
   min-height: 100vh;
 }
+
+.container {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding-top: 24px;
+}
+
+.muted {
+  opacity: 0.85;
+}
+
+.error {
+  color: #ffb4b4;
+}
+
+.btn {
+  display: inline-block;
+  padding: 10px 14px;
+  border-radius: 10px;
+  border: 1px solid #2a2a2a;
+  background: #111;
+  color: #e5e5e5;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.btnPrimary {
+  background: #1db954;
+  color: #0b0b0b;
+  border-color: transparent;
+  font-weight: 650;
+}
+
+.row {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  align-items: center;
+}
+
+.tableWrap {
+  overflow-x: auto;
+  margin-top: 10px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+thead tr {
+  text-align: left;
+  border-bottom: 1px solid #2a2a2a;
+}
+
+th,
+td {
+  padding: 10px 8px;
+}
+
+tbody tr {
+  border-bottom: 1px solid #1f1f1f;
+}
