@@ -1,0 +1,35 @@
+# Env and secrets
+.env
+.env.local
+*.pem
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+*.egg-info/
+.eggs/
+
+# Node
+node_modules/
+.next/
+out/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Test/cache
+.coverage
+htmlcov/
+.pytest_cache/
+.ruff_cache/
+
+# Alembic
+# Keep versions/*.py, ignore nothing else
