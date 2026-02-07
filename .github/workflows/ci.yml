@@ -20,7 +20,9 @@ jobs:
           python-version: "3.11"
       - name: Install deps
         run: pip install ruff
-      - name: Ruff
+      - name: Ruff format (check)
+        run: ruff format --check .
+      - name: Ruff lint
         run: ruff check app tests
 
   test:
@@ -76,6 +78,15 @@ jobs:
         with:
           node-version: "20"
       - name: Install
-        run: npm install
+        run: npm ci
       - name: Lint
         run: npm run lint
+      - name: Build
+        run: npm run build
+
+  docker-build-backend:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build backend image
+        run: docker build -f backend/Dockerfile -t spotify-playlist-manager-backend:ci backend
