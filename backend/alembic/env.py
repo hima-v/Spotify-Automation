@@ -10,8 +10,7 @@ if config.config_file_name is not None:
     fileConfig(config.config_file_name)
 
 from app.db.session import Base
-# Import models so Base.metadata is populated when you add them
-# from app.db import models  # noqa: F401
+from app.db import models  # noqa: F401
 
 target_metadata = Base.metadata
 
