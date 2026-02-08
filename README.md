@@ -47,4 +47,4 @@ Run the App:
 ```bash
 python app.py
 Access the App:
-Open a web browser and navigate to http://127.0.0.1:5000/ to initiate the Spotify authentication process.
+Open a web browser and navigate to http://spotify-automation-nu.vercel.app
