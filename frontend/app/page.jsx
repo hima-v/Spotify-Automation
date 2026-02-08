@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useState } from "react";
 
 import { ApiError, apiRequest } from "../lib/api";
+import { SpotifyNotice } from "./components/SpotifyNotice";
 
 export default function Home() {
   const [me, setMe] = useState(null);
@@ -35,11 +36,54 @@ export default function Home() {
   const connectHref = `${apiUrl.replace(/\/$/, "")}/auth/login`;
 
   return (
-    <main className="container" style={{ maxWidth: 900 }}>
-      <h1 style={{ marginBottom: 8 }}>Spotify Playlist Manager</h1>
-      <p className="muted" style={{ marginTop: 0 }}>
-        Save Discover Weekly to a dedicated playlist, safely and automatically.
-      </p>
+    <main className="container pageFadeIn" style={{ maxWidth: 900 }}>
+      <div className="row" style={{ alignItems: "flex-start" }}>
+        <div>
+          <h1 style={{ marginBottom: 8 }}>Spotify Playlist Manager</h1>
+          <p className="muted" style={{ marginTop: 0 }}>
+            Save Discover Weekly to a dedicated playlist, safely and automatically.
+          </p>
+        </div>
+        <div style={{ display: "flex", gap: 10, paddingTop: 4 }}>
+          <a className="btn" href="/dashboard">
+            Dashboard
+          </a>
+        </div>
+      </div>
+
+      <div className="slideUp1">
+        <SpotifyNotice />
+      </div>
+
+      <section className="hero card slideUp2">
+        <h2 style={{ margin: 0, fontSize: 18 }}>
+          Tired of losing Discover Weekly tracks?
+        </h2>
+        <p className="muted" style={{ margin: "8px 0 0", maxWidth: 760 }}>
+          Sometimes Discover Weekly is really good, but you miss a few songs when it refreshes.
+          This app saves those tracks for you by copying them into a “Saved Weekly” playlist which
+          ensures no manual adding.
+        </p>
+
+        <div style={{ display: "flex", gap: 10, marginTop: 14, flexWrap: "wrap" }}>
+          <a className="btn btnPrimary btnPop" href={connectHref}>
+            Connect Spotify
+          </a>
+          <a className="btn" href="/dashboard">
+            View dashboard
+          </a>
+        </div>
+      </section>
+
+      <section className="card">
+        <h2 style={{ margin: 0, fontSize: 16 }}>What it does</h2>
+        <ul className="featureList">
+          <li>Connect Spotify securely (tokens stay server-side).</li>
+          <li>Copy Discover Weekly into “Saved Weekly” without duplicates.</li>
+          <li>Run sync as a background job and track status.</li>
+          <li>View recent sync run history in the dashboard.</li>
+        </ul>
+      </section>
 
       {error ? (
         <p className="error">{error}</p>
@@ -50,9 +94,7 @@ export default function Home() {
           <p className="muted">
             Connected as <code>{me.spotify_user_id || "unknown"}</code>.
           </p>
-          <a className="btn" href="/dashboard">
-            Go to dashboard
-          </a>
+          <a className="btn" href="/dashboard">Go to dashboard</a>
         </div>
       ) : (
         <div style={{ marginTop: 20 }}>

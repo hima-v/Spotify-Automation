@@ -10,6 +10,85 @@ body {
   min-height: 100vh;
 }
 
+@media (prefers-reduced-motion: no-preference) {
+  .pageFadeIn {
+    animation: fadeIn 300ms ease-out both;
+  }
+
+  .slideUp1 {
+    animation: slideUp 360ms ease-out both;
+  }
+
+  .slideUp2 {
+    animation: slideUp 420ms ease-out both;
+    animation-delay: 70ms;
+  }
+
+  .btnPop {
+    animation: popIn 380ms cubic-bezier(0.2, 1.1, 0.3, 1) both;
+    animation-delay: 140ms;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes popIn {
+  0% {
+    transform: translateY(6px) scale(0.98);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+  }
+}
+
+.notice {
+  border: 1px solid #2a2a2a;
+  background: #101010;
+  border-radius: 12px;
+  padding: 12px 14px;
+  margin: 14px 0 18px;
+}
+
+.noticeTitle {
+  font-weight: 650;
+  margin-bottom: 4px;
+}
+
+.noticeBody {
+  opacity: 0.86;
+  line-height: 1.35;
+  margin-bottom: 8px;
+}
+
+.noticeLink {
+  color: #9ae6b4;
+  text-decoration: none;
+}
+
+.noticeLink:hover {
+  text-decoration: underline;
+}
+
 .container {
   max-width: 1100px;
   margin: 0 auto;
@@ -33,6 +112,17 @@ body {
   color: #e5e5e5;
   cursor: pointer;
   text-decoration: none;
+  transition: transform 120ms ease, background 120ms ease, border-color 120ms ease,
+    color 120ms ease;
+}
+
+.btn:hover {
+  transform: translateY(-1px);
+  border-color: #3a3a3a;
+}
+
+.btn:active {
+  transform: translateY(0);
 }
 
 .btn:disabled {
@@ -47,11 +137,43 @@ body {
   font-weight: 650;
 }
 
+.btnPrimary:hover {
+  background: #1ed760;
+}
+
 .row {
   display: flex;
   justify-content: space-between;
   gap: 16px;
   align-items: center;
+}
+
+.card {
+  border: 1px solid #2a2a2a;
+  background: #101010;
+  border-radius: 12px;
+  padding: 12px 14px;
+  margin: 14px 0 18px;
+  transition: transform 140ms ease, border-color 140ms ease;
+}
+
+.card:hover {
+  transform: translateY(-1px);
+  border-color: #333;
+}
+
+.hero {
+  background: linear-gradient(180deg, rgba(29, 185, 84, 0.10), rgba(16, 16, 16, 1));
+}
+
+.featureList {
+  margin: 10px 0 0;
+  padding-left: 18px;
+  opacity: 0.9;
+}
+
+.featureList li {
+  margin: 6px 0;
 }
 
 .tableWrap {

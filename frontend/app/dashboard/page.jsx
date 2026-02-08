@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 
 import { ApiError, apiRequest } from "../../lib/api";
+import { SpotifyNotice } from "../components/SpotifyNotice";
 
 function formatTs(iso) {
   const d = new Date(iso);
@@ -102,6 +103,7 @@ export default function DashboardPage() {
 
   return (
     <main className="container">
+      <SpotifyNotice />
       <div className="row">
         <div>
           <h1 style={{ marginBottom: 8 }}>Dashboard</h1>
@@ -181,12 +183,6 @@ export default function DashboardPage() {
           </table>
         </div>
       </section>
-
-      <p className="muted" style={{ marginTop: 26, fontSize: 13 }}>
-        CSRF note: requests use SameSite cookies and send JSON + a custom header,
-        which triggers CORS preflight; the backend should only allow your frontend
-        origin.
-      </p>
     </main>
   );
 }
