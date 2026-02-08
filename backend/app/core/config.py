@@ -1,14 +1,18 @@
 """Load config from env; fail fast if required vars missing (CWE-798). No secrets in code."""
+from __future__ import annotations
+
 from functools import lru_cache
 from pydantic import Field, field_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
-
 
 class Settings(BaseSettings):
     model_config = SettingsConfigDict(
         env_file=".env",
         extra="ignore",
         env_file_encoding="utf-8",
+        # Pydantic Settings tries to JSON-decode "complex" env values (like list[str]).
+        # We want to accept a simple comma-separated string for ALLOWED_ORIGINS.
+        enable_decoding=False,
     )
 
     # Required for OAuth and app security
@@ -41,6 +45,8 @@ class Settings(BaseSettings):
         if isinstance(v, list):
             return v
         if isinstance(v, str):
+            if not v.strip():
+                return ["http://localhost:3000"]
             return [x.strip() for x in v.split(",") if x.strip()]
         return ["http://localhost:3000"]
 
