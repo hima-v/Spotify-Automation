@@ -1,9 +1,12 @@
 """Load config from env; fail fast if required vars missing (CWE-798). No secrets in code."""
+
 from __future__ import annotations
 
 from functools import lru_cache
+
 from pydantic import Field, field_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
+
 
 class Settings(BaseSettings):
     model_config = SettingsConfigDict(

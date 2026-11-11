@@ -1,20 +1,21 @@
 """DB model tests: metadata and token non-exposure (CWE-532)."""
-from datetime import datetime, timezone
+
+from datetime import UTC, datetime
 
 import pytest
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
+from app.db.models import OAuthToken
 from app.db.session import Base
-from app.db.models import User, OAuthToken, PlaylistConfig, PlaylistRun
 
 
 @pytest.fixture
 def in_memory_session():
     engine = create_engine("sqlite:///:memory:")
     Base.metadata.create_all(engine)
-    Session = sessionmaker(bind=engine)
-    return Session()
+    session_factory = sessionmaker(bind=engine)
+    return session_factory()
 
 
 def test_oauth_token_repr_does_not_contain_tokens():
@@ -23,8 +24,8 @@ def test_oauth_token_repr_does_not_contain_tokens():
         user_id=1,
         access_token="secret_access_123",
         refresh_token="secret_refresh_456",
-        expires_at=datetime.now(timezone.utc),
-        updated_at=datetime.now(timezone.utc),
+        expires_at=datetime.now(UTC),
+        updated_at=datetime.now(UTC),
         scope="user-read-private",
     )
     r = repr(token)

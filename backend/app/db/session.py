@@ -1,6 +1,7 @@
 """DB session factory; use with dependency injection. Parameterized SQL only (CWE-89)."""
+
 from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker, declarative_base
+from sqlalchemy.orm import declarative_base, sessionmaker
 
 from app.config import get_settings
 

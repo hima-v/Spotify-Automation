@@ -1,13 +1,18 @@
 """Structured logging with redaction of tokens and secrets (CWE-532, CWE-359)."""
+
 import json
 import logging
 import re
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from typing import Any
 
-
 REDACT_PATTERNS = [
-    (re.compile(r"\b(access_token|refresh_token|token|secret|password|api_key)=['\"]?[\w\-\.]+", re.I), r"\1=***"),
+    (
+        re.compile(
+            r"\b(access_token|refresh_token|token|secret|password|api_key)=['\"]?[\w\-\.]+", re.I
+        ),
+        r"\1=***",
+    ),
     (re.compile(r"Bearer\s+[\w\-\.]+", re.I), "Bearer ***"),
     (re.compile(r"\b[A-Za-z0-9\-_]{20,}\.([A-Za-z0-9\-_]{20,}\.){2}[A-Za-z0-9\-_]{20,}\b"), "***"),
 ]
@@ -38,7 +43,7 @@ class JsonFormatter(logging.Formatter):
 
     def format(self, record: logging.LogRecord) -> str:
         payload: dict[str, Any] = {
-            "timestamp": datetime.now(timezone.utc).isoformat().replace("+00:00", "Z"),
+            "timestamp": datetime.now(UTC).isoformat().replace("+00:00", "Z"),
             "level": record.levelname,
             "logger": record.name,
             "message": redact_message(record.getMessage()),

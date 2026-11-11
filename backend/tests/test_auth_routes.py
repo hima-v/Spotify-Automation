@@ -1,4 +1,5 @@
 """Auth routes: login redirect, me unauthenticated (no tokens in response)."""
+
 import pytest
 from httpx import ASGITransport, AsyncClient
 

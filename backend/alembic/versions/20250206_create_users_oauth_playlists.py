@@ -5,6 +5,7 @@ Revises:
 Create Date: 2025-02-06
 
 """
+
 from typing import Sequence, Union
 
 from alembic import op
@@ -63,11 +64,20 @@ def upgrade() -> None:
         sa.Column("finished_at", sa.DateTime(timezone=True), nullable=True),
         sa.Column("tracks_added_count", sa.Integer(), nullable=True),
         sa.Column("error_message", sa.Text(), nullable=True),
-        sa.ForeignKeyConstraint(["playlist_config_id"], ["playlist_configs.id"], ondelete="CASCADE"),
+        sa.ForeignKeyConstraint(
+            ["playlist_config_id"], ["playlist_configs.id"], ondelete="CASCADE"
+        ),
         sa.PrimaryKeyConstraint("id"),
     )
-    op.create_index("ix_playlist_runs_playlist_config_id", "playlist_runs", ["playlist_config_id"], unique=False)
-    op.create_index("ix_playlist_runs_config_started", "playlist_runs", ["playlist_config_id", "started_at"], unique=False)
+    op.create_index(
+        "ix_playlist_runs_playlist_config_id", "playlist_runs", ["playlist_config_id"], unique=False
+    )
+    op.create_index(
+        "ix_playlist_runs_config_started",
+        "playlist_runs",
+        ["playlist_config_id", "started_at"],
+        unique=False,
+    )
 
 
 def downgrade() -> None:

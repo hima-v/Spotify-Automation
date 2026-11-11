@@ -20,7 +20,9 @@ def _run(coro):
 
 
 @celery_app.task(bind=True, name="sync.discover_weekly", max_retries=5)
-def sync_discover_weekly_task(self: Task, *, user_id: int, dry_run: bool = False, max_tracks: int | None = None):
+def sync_discover_weekly_task(
+    self: Task, *, user_id: int, dry_run: bool = False, max_tracks: int | None = None
+):
     """Run Discover Weekly sync in the background. Returns a sanitized result dict."""
     settings = get_settings()
     db = SessionLocal()
@@ -36,16 +38,15 @@ def sync_discover_weekly_task(self: Task, *, user_id: int, dry_run: bool = False
 
     except SpotifyApiError as e:
         retries = getattr(self.request, "retries", 0)
-        countdown = min(60, 2 ** retries)
+        countdown = min(60, 2**retries)
         if e.status_code in (429, 500, 502, 503, 504, None) and retries < self.max_retries:
-            raise self.retry(countdown=countdown)
+            raise self.retry(countdown=countdown) from e
         return {"status": "error"}
-    except Exception:
+    except Exception as e:
         retries = getattr(self.request, "retries", 0)
-        countdown = min(60, 2 ** retries)
+        countdown = min(60, 2**retries)
         if retries < self.max_retries:
-            raise self.retry(countdown=countdown)
+            raise self.retry(countdown=countdown) from e
         return {"status": "error"}
     finally:
         db.close()
-

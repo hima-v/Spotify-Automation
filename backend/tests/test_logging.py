@@ -1,5 +1,5 @@
 """Tests for logging redaction (no tokens/secrets in logs)."""
-import pytest
+
 from app.core.logging import redact_message
 
 

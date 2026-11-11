@@ -14,4 +14,3 @@ def test_truncate_error():
     out = _truncate_error(msg, limit=100)
     assert len(out) == 100
     assert out.endswith("...")
-

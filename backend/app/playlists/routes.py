@@ -2,16 +2,14 @@ from __future__ import annotations
 
 import logging
 
-from fastapi import APIRouter, Depends, HTTPException, Request
 from celery.result import AsyncResult
+from fastapi import APIRouter, Depends, HTTPException, Request
 from sqlalchemy.orm import Session
 
 from app.core.config import get_settings
 from app.core.security import parse_session_cookie
 from app.db.models import PlaylistConfig, PlaylistRun, User
 from app.db.session import get_db
-from app.workers.celery_app import celery_app
-from app.workers.tasks import sync_discover_weekly_task
 from app.schemas.playlists import (
     JobEnqueueResponse,
     JobStatusResponse,
@@ -19,6 +17,8 @@ from app.schemas.playlists import (
     PlaylistRunOut,
     SyncDiscoverWeeklyRequest,
 )
+from app.workers.celery_app import celery_app
+from app.workers.tasks import sync_discover_weekly_task
 
 logger = logging.getLogger(__name__)
 router = APIRouter(prefix="/playlists", tags=["playlists"])
@@ -42,7 +42,6 @@ async def sync_discover_weekly_endpoint(
     body: SyncDiscoverWeeklyRequest,
     db: Session = Depends(get_db),
 ):
-    settings = get_settings()
     user = _current_user(request, db)
     async_result = sync_discover_weekly_task.apply_async(
         kwargs={"user_id": user.id, "dry_run": body.dry_run, "max_tracks": body.max_tracks}
@@ -91,4 +90,3 @@ def job_status(job_id: str):
     if state == "FAILURE":
         return JobStatusResponse(job_id=job_id, state=state, status="failed")
     return JobStatusResponse(job_id=job_id, state=state, status="unknown")
-

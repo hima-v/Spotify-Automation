@@ -1,5 +1,7 @@
 """Basic API and config tests."""
+
 import pytest
+
 from app.config import get_settings
 
 

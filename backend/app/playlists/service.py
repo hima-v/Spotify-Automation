@@ -3,8 +3,9 @@ from __future__ import annotations
 import asyncio
 import logging
 import random
-from datetime import datetime, timezone
-from typing import Any, AsyncIterator, Iterable
+from collections.abc import AsyncIterator, Iterable
+from datetime import UTC, datetime
+from typing import Any
 
 import httpx
 from sqlalchemy.orm import Session
@@ -22,7 +23,7 @@ SAVED_WEEKLY_NAME = "Saved Weekly"
 
 
 def _utc_now() -> datetime:
-    return datetime.now(timezone.utc)
+    return datetime.now(UTC)
 
 
 class SpotifyApiError(Exception):
@@ -89,7 +90,9 @@ class SpotifyApi:
         max_pages = 3000
 
         for _ in range(max_pages):
-            resp = await self.request("GET", "/me/playlists", params={"limit": limit, "offset": offset})
+            resp = await self.request(
+                "GET", "/me/playlists", params={"limit": limit, "offset": offset}
+            )
             if resp.status_code != 200:
                 raise SpotifyApiError(resp.status_code, "Failed to list playlists")
             data = resp.json()
@@ -132,7 +135,9 @@ class SpotifyApi:
 
     async def add_tracks(self, playlist_id: str, uris: list[str]) -> None:
         for chunk in _chunks(uris, 100):
-            resp = await self.request("POST", f"/playlists/{playlist_id}/tracks", json={"uris": chunk})
+            resp = await self.request(
+                "POST", f"/playlists/{playlist_id}/tracks", json={"uris": chunk}
+            )
             if resp.status_code not in (200, 201):
                 raise SpotifyApiError(resp.status_code, "Failed to add tracks")
 
@@ -186,7 +191,9 @@ def _finish_run_success(db: Session, run: PlaylistRun, tracks_added: int) -> Pla
     return run
 
 
-def _finish_run_error(db: Session, run: PlaylistRun, message: str, status: str = "error") -> PlaylistRun:
+def _finish_run_error(
+    db: Session, run: PlaylistRun, message: str, status: str = "error"
+) -> PlaylistRun:
     run.status = status
     run.finished_at = _utc_now()
     run.error_message = _truncate_error(message)
@@ -277,4 +284,3 @@ async def sync_discover_weekly(
         except SpotifyApiError as e:
             _finish_run_error(db, run, str(e))
             raise
-

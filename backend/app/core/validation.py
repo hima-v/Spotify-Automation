@@ -1,4 +1,5 @@
 """Strict input schemas (CWE-20). Extend as endpoints are added."""
+
 from pydantic import BaseModel, Field
 
 

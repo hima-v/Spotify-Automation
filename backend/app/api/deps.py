@@ -1,4 +1,5 @@
 """Shared API dependencies (DB session, rate limit hooks)."""
+
 from fastapi import Request
 
 from app.config import get_settings

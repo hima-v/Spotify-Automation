@@ -1,15 +1,16 @@
 """FastAPI entrypoint. OAuth and playlist logic not implemented yet."""
-from contextlib import asynccontextmanager
+
 import logging
+from contextlib import asynccontextmanager
 
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
+from app.auth.routes import router as auth_router
 from app.core.config import get_settings
 from app.core.logging import configure_logging
-from app.auth.routes import router as auth_router
-from app.playlists.routes import router as playlists_router
 from app.playlists.routes import jobs_router
+from app.playlists.routes import router as playlists_router
 
 
 @asynccontextmanager

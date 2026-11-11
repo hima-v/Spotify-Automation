@@ -1,11 +1,11 @@
 """OAuth state and session: signed cookies, safe redirects (CWE-352, CWE-601, CWE-614)."""
+
 import hashlib
 import hmac
 import secrets
 from urllib.parse import urlparse
 
-from fastapi import Request, Response
-
+from fastapi import Response
 
 STATE_COOKIE_NAME = "spotify_oauth_state"
 STATE_COOKIE_MAX_AGE = 600
@@ -101,7 +101,9 @@ def is_safe_redirect_url(url: str, allowed_origins: list[str]) -> bool:
 
 def get_safe_success_redirect(allowed_origins: list[str], override: str | None) -> str:
     if override:
-        if override.startswith(("http://", "https://")) and is_safe_redirect_url(override, allowed_origins):
+        if override.startswith(("http://", "https://")) and is_safe_redirect_url(
+            override, allowed_origins
+        ):
             return override
         if override.startswith("/") and allowed_origins:
             return allowed_origins[0].rstrip("/") + override

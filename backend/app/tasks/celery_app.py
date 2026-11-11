@@ -1,4 +1,5 @@
 """Celery app (Redis). Chosen over Cloud Tasks for local dev: no GCP dependency, same docker-compose; can add task abstraction later for Cloud Tasks."""
+
 from celery import Celery
 
 from app.config import get_settings

@@ -1,5 +1,6 @@
 """Spotify OAuth and API wrapper; token refresh and DB update (no tokens in logs)."""
-from datetime import datetime, timezone, timedelta
+
+from datetime import UTC, datetime, timedelta
 from typing import Any
 from urllib.parse import urlencode
 
@@ -16,7 +17,7 @@ SCOPES = "playlist-read-private playlist-modify-private playlist-modify-public u
 
 
 def _utc_now() -> datetime:
-    return datetime.now(timezone.utc)
+    return datetime.now(UTC)
 
 
 class SpotifyAuthError(Exception):
@@ -123,6 +124,7 @@ def upsert_user_and_tokens(
 def get_valid_access_token(db: Session, user_id: int, settings: Settings) -> str | None:
     """Return access token for user; refresh and update DB if expired. Sync for use from sync context."""
     import asyncio
+
     token_row = db.query(OAuthToken).filter(OAuthToken.user_id == user_id).first()
     if not token_row:
         return None
@@ -143,9 +145,7 @@ def get_valid_access_token(db: Session, user_id: int, settings: Settings) -> str
     return new_access
 
 
-async def get_valid_access_token_async(
-    db: Session, user_id: int, settings: Settings
-) -> str | None:
+async def get_valid_access_token_async(db: Session, user_id: int, settings: Settings) -> str | None:
     """Async version for use in request handlers."""
     token_row = db.query(OAuthToken).filter(OAuthToken.user_id == user_id).first()
     if not token_row:

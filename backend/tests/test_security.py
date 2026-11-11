@@ -1,6 +1,4 @@
 """Security helpers: state verification, safe redirect (CWE-601, CWE-352)."""
-import pytest
-from fastapi import Request, Response
 
 from app.core.security import (
     build_session_cookie_value,
@@ -52,7 +50,9 @@ def test_is_safe_redirect_allowed():
 
 def test_is_safe_redirect_rejected():
     assert is_safe_redirect_url("https://evil.com/", ["http://localhost:3000"]) is False
-    assert is_safe_redirect_url("http://localhost:3000@evil.com/", ["http://localhost:3000"]) is False
+    assert (
+        is_safe_redirect_url("http://localhost:3000@evil.com/", ["http://localhost:3000"]) is False
+    )
 
 
 def test_get_safe_success_redirect_default():

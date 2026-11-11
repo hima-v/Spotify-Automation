@@ -36,4 +36,3 @@ class JobStatusResponse(BaseModel):
     status: str
     run_id: int | None = None
     tracks_added_count: int | None = None
-

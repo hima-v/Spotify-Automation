@@ -1,10 +1,12 @@
 """Alembic env; reads DATABASE_URL from environment."""
+
 import os
 from logging.config import fileConfig
 
 from alembic import context
 from sqlalchemy import engine_from_config
 from sqlalchemy import pool
+
 config = context.config
 if config.config_file_name is not None:
     fileConfig(config.config_file_name)
@@ -16,7 +18,9 @@ target_metadata = Base.metadata
 
 
 def get_url():
-    return os.environ.get("DATABASE_URL", "postgresql://postgres:postgres@localhost:5432/spotify_playlist")
+    return os.environ.get(
+        "DATABASE_URL", "postgresql://postgres:postgres@localhost:5432/spotify_playlist"
+    )
 
 
 def run_migrations_offline() -> None:
