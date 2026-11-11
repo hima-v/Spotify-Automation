@@ -89,4 +89,4 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Build backend image
-        run: docker build -f backend/Dockerfile -t spotify-playlist-manager-backend:ci backend
+        run: docker build -t spotify-playlist-manager-backend:ci .
