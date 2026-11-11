@@ -36,10 +36,10 @@ The sync is idempotent with respect to tracks already present in `Saved Weekly`,
 ## Architecture
 
 ```text
-┌─────────────────────┐       HTTPS / cookies       ┌─────────────────────┐
-│ Next.js frontend    │ ───────────────────────────▶ │ FastAPI API         │
-│ Vercel              │                              │ Cloud Run / Docker  │
-└─────────────────────┘                              └──────┬──────┬───────┘
+┌─────────────────────┐       HTTPS / cookies       ┌─────────────────────────┐
+│ Next.js frontend    │ ───────────────────────────▶ │ FastAPI API             │
+│ Vercel              │                              │ Docker (Cloud Run ready)│
+└─────────────────────┘                              └──────────┬──────┬───────┘
                                                             │      │
                                              SQLAlchemy     │      │ Celery
                                                             ▼      ▼
@@ -107,7 +107,7 @@ The root-level [`spoofy.py`](./spoofy.py) is the original Flask/Spotipy prototyp
 Create a Spotify application in the [Spotify Developer Dashboard](https://developer.spotify.com/dashboard). Add this redirect URI to the application:
 
 ```text
-http://localhost:8000/auth/callback
+http://127.0.0.1:8000/auth/callback
 ```
 
 ### 1. Start local infrastructure
@@ -163,7 +163,7 @@ copy .env.example .env.local
 npm run dev
 ```
 
-Open `http://localhost:3000`, connect Spotify, and run a Discover Weekly sync from the dashboard.
+Open `http://127.0.0.1:3000`, connect Spotify, and run a Discover Weekly sync from the dashboard.
 
 ## Configuration
 
@@ -176,7 +176,7 @@ The backend uses Pydantic Settings and fails fast when required values are missi
 | `APP_SECRET` | Yes | At least 16 characters; signs OAuth state and session cookies |
 | `DATABASE_URL` | Yes | PostgreSQL connection URL |
 | `BASE_URL` | Yes | Public backend URL used to build the OAuth callback |
-| `ALLOWED_ORIGINS` | No | Comma-separated frontend origins; defaults to `http://localhost:3000` |
+| `ALLOWED_ORIGINS` | No | Comma-separated frontend origins; defaults to `http://127.0.0.1:3000` |
 | `REDIS_URL` | No | Celery broker/result backend; defaults to local Redis |
 | `ENVIRONMENT` | No | `development` by default; `production` disables API docs |
 | `DEBUG` | No | SQLAlchemy debug behavior; keep `false` in production |
@@ -235,7 +235,7 @@ npm run lint
 npm run build
 ```
 
-GitHub Actions runs these checks on pushes and pull requests, including PostgreSQL and Redis service containers for backend tests. It also builds the backend Docker image to verify the deployment artifact.
+GitHub Actions runs these checks on pushes and pull requests. CI also provisions PostgreSQL and Redis service containers; backend tests currently use in-memory SQLite and mocked Spotify calls. It also builds the backend Docker image to verify the deployment artifact.
 
 ## Deployment
 
@@ -260,7 +260,7 @@ This repository is intentionally small, but it exercises the same concerns that 
 - designing retry boundaries around an unreliable external dependency;
 - making state transitions observable through persistent run records;
 - treating configuration, secrets, and deployment settings as explicit contracts;
-- building locally with the same PostgreSQL, Redis, and container primitives used in production;
+- building locally with the same PostgreSQL, Redis, and container primitives used in the intended deployment;
 - keeping CI responsible for reproducibility rather than relying on local machine state.
 
 ## License
